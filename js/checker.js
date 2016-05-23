@@ -60,6 +60,15 @@ var reloadPlugin = () => {
           'homepage': homepage
         }
     })
+    .then(info => {
+      let commentBodyList = document.getElementsByClassName('comment-body markdown-body markdown-format js-comment-body');
+      if(commentBodyList.length !== 0) {
+        commentBody = commentBodyList[0];
+        // checkListTemplate is from template.js
+        var infoBody = Mustache.render(checkListTemplate, info);
+        commentBody.insertAdjacentHTML('beforeEnd', infoBody);
+
+    });
   }
 }
 
