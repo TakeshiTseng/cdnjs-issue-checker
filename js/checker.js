@@ -17,6 +17,49 @@ var reloadPlugin = () => {
   // call apiUrl and fetch issue imnformation
     fetch(apiUrl).then(resp => resp.text())
       .then(body => JSON.parse(body))
+      .then(issue => {
+        let issueBody = issue.body;
+        let issueBodyLines = issueBody.split("\n");
+
+        var libName, repoUrl, npmPackage, license, homepage;
+        issueBodyLines.map(line => {
+          if(line.search("Library name") != -1) {
+            libName = line.replace("Library name:", "").replace(/\*+/, "");
+            libName = libName.replace(/\*+/, "");
+            libName = libName.trim();
+          } else if(line.search("Git repository url") != -1) {
+            let repoMatches = line.match(GitHubRepoRegex);
+            if(repoMatches !== null && repoMatches.length !== 0) {
+              repoUrl = repoMatches[0];
+            } else {
+              repoUrl = '';
+            }
+          } else if(line.search("npm package url") != -1) {
+            let matches = line.match(npmRegex);
+            if(matches !== null && matches.length !== 0) {
+              npmPackage = matches[0];
+            } else {
+              npmPackage = '';
+            }
+          } else if(line.search("License") != -1) {
+            license = line.replace("License(s):", "").replace(/\*+/g, "");
+            license = license.replace(/\*+/g, "");
+            license = license.trim();
+          } else if(line.search("Official homepage") != -1) {
+            homepage = line.replace("Official homepage:", "").replace(/\*+/g, "");
+            homepage = homepage.replace(/\*+/g, "");
+            homepage = homepage.trim();
+          }
+        });
+
+        return {
+          'libName': libName,
+          'repoUrl': repoUrl,
+          'npmPackage': npmPackage,
+          'license': license,
+          'homepage': homepage
+        }
+    })
   }
 }
 
