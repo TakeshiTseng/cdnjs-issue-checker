@@ -13,6 +13,8 @@ var reloadPlugin = () => {
   // API url
   let apiUrl = issueBasedUrl + issueId + "?access_token=" + accessToken;
 
+  if(issueId.search('[0-9]+') != -1){
+  }
 }
 
 setInterval(() => {
