@@ -14,6 +14,9 @@ var reloadPlugin = () => {
   let apiUrl = issueBasedUrl + issueId + "?access_token=" + accessToken;
 
   if(issueId.search('[0-9]+') != -1){
+  // call apiUrl and fetch issue imnformation
+    fetch(apiUrl).then(resp => resp.text())
+      .then(body => JSON.parse(body))
   }
 }
 
