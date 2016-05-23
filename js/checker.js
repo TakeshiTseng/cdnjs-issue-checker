@@ -6,6 +6,13 @@ let npmRegex = /https?:\/\/www.npmjs.com\/package\/[-a-zA-Z0-9_]+/gi
 
 
 var reloadPlugin = () => {
+  // Fetch issue id from url
+  var pathnameArray = document.location.pathname.split('/');
+  let issueId = pathnameArray[pathnameArray.length-1];
+
+  // API url
+  let apiUrl = issueBasedUrl + issueId + "?access_token=" + accessToken;
+
 }
 
 setInterval(() => {
